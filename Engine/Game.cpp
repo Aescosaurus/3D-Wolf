@@ -52,7 +52,7 @@ void Game::ComposeFrame()
 	const auto& rays = guy.GetRays();
 	const float rayWidth = float( Graphics::ScreenWidth ) /
 		float( rays.size() );
-	float rayX = 0.0f;
+	float rayX = float( Graphics::ScreenWidth ) - rayWidth;
 	const int screenCenter = Graphics::ScreenHeight / 2;
 	for( const auto& ray : rays )
 	{
