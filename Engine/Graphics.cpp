@@ -333,8 +333,8 @@ void Graphics::DrawRectDim( int x,int y,int x2,int y2,Color c )
 	{
 		for( int xX = x; xX < x2; ++xX )
 		{
-			if( xX >= 0 && xX < ScreenWidth &&
-				yY >= 0 && yY < ScreenHeight )
+			// if( xX >= 0 && xX < ScreenWidth &&
+			// 	yY >= 0 && yY < ScreenHeight )
 			{
 				PutPixel( xX,yY,c );
 			}

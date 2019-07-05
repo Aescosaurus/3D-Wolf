@@ -43,51 +43,6 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	gfx.DrawRect( 0,0,Graphics::ScreenWidth,
-		Graphics::ScreenHeight / 2,Colors::DarkGray );
-	gfx.DrawRect( 0,Graphics::ScreenHeight / 2,
-		Graphics::ScreenWidth,Graphics::ScreenHeight / 2,
-		Colors::LightGray );
-
-	const auto& rays = guy.GetRays();
-	const float rayWidth = float( Graphics::ScreenWidth ) /
-		float( rays.size() );
-	float rayX = float( Graphics::ScreenWidth ) - rayWidth;
-	const int screenCenter = Graphics::ScreenHeight / 2;
-	const float resolution = float( rays.size() );
-	// for( const auto& ray : rays )
-	for( int col = 0; col < int( resolution ); ++col )
-	{
-		const auto& ray = rays[col];
-
-		// Ray height depends on distance.
-		// const int rayHeight = Graphics::ScreenHeight -
-		// 	int( ray.GetDist() * 45.0f );
-		// 
-		// gfx.DrawRect( int( round( rayX ) ),
-		// 	screenCenter - rayHeight / 2,
-		// 	int( round( rayWidth ) ),
-		// 	rayHeight,ray.GetColor() );
-
-		// Famcy maffs.
-		const auto x = col / resolution - 0.5f;
-		const auto angle = std::atan2( x,0.8f );
-		const auto z = ray.GetDist() * std::cos( angle );
-		const auto rayHeight = Graphics::ScreenHeight * ( 1.0f / z );
-		const auto rayBot = float( Graphics::ScreenHeight ) / 2.0f *
-			( 1.0f + 1.0f / z );
-
-		gfx.DrawRectDim( int( std::round( rayX ) ),
-			int( rayBot - rayHeight ),
-			int( std::round( rayX ) ) + int( std::round( rayWidth ) ),
-			int( rayBot ),ray.GetColor() );
-
-		// gfx.DrawLine( Vec2{ float( Graphics::ScreenWidth / 2 ),
-		// 	float( Graphics::ScreenHeight - 1 ) },
-		// 	Vec2{ rayX,float( screenCenter - rayHeight / 2 + rayHeight ) },
-		// 	Colors::Green );
-
-		rayX -= rayWidth;
-	}
+	cam.Draw( guy,gfx );
 	tilemap.Draw( guy,gfx );
 }

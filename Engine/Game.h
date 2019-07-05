@@ -25,6 +25,7 @@
 #include "Graphics.h"
 #include "Map.h"
 #include "Player.h"
+#include "Camera.h"
 
 class Game
 {
@@ -46,5 +47,6 @@ private:
 	/*  User Variables              */
 	Map tilemap;
 	Player guy;
+	Camera cam;
 	/********************************/
 };
