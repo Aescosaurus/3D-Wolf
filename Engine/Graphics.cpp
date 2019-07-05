@@ -327,6 +327,21 @@ void Graphics::DrawRect( int x,int y,int width,int height,Color c )
 	}
 }
 
+void Graphics::DrawRectDim( int x,int y,int x2,int y2,Color c )
+{
+	for( int yY = y; yY < y2; ++yY )
+	{
+		for( int xX = x; xX < x2; ++xX )
+		{
+			if( xX >= 0 && xX < ScreenWidth &&
+				yY >= 0 && yY < ScreenHeight )
+			{
+				PutPixel( xX,yY,c );
+			}
+		}
+	}
+}
+
 void Graphics::DrawCircle( int x,int y,int radius,Color c )
 {
 	const auto radSq = radius * radius;

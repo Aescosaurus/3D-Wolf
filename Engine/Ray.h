@@ -8,11 +8,18 @@ class Ray
 {
 public:
 	// Please make sure dir is normalized.
-	Ray( const Vec2& start,const Vec2& dir )
+	// Ray( const Vec2& start,const Vec2& dir )
+	// 	:
+	// 	start( start ),
+	// 	pos( start ),
+	// 	dir( dir )
+	// {}
+	Ray( const Vec2& start,float angle )
 		:
 		start( start ),
 		pos( start ),
-		dir( dir )
+		dir( Vec2::FromAngle( angle ) ),
+		angle( angle )
 	{}
 
 	// Returns true if touching a wall.
@@ -42,6 +49,10 @@ public:
 	{
 		return( distTraveled );
 	}
+	float GetAngle() const
+	{
+		return( angle );
+	}
 	Color GetColor() const
 	{
 		return( tileHitCol );
@@ -51,6 +62,7 @@ private:
 	Vec2 start;
 	Vec2 pos;
 	Vec2 dir;
+	float angle;
 	float distTraveled = 0.0f;
 	Color tileHitCol;
 };

@@ -12,8 +12,10 @@ void Player::Update( const Keyboard& kbd,const Map& tilemap )
 	rays.clear();
 	for( int i = -fov / 2; i < fov / 2; i += fov / nRays )
 	{
-		rays.emplace_back( Ray{ pos,Vec2::FromAngle(
-			angle - chili::deg2rad( float( i ) ) ) } );
+		// rays.emplace_back( Ray{ pos,Vec2::FromAngle(
+		// 	angle - chili::deg2rad( float( i ) ) ) } );
+		rays.emplace_back( Ray{ pos,
+			angle - chili::deg2rad( float( i ) ) } );
 
 		while( !rays.back().Go( tilemap ) );
 	}
