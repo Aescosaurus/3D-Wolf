@@ -29,11 +29,12 @@ public:
 		distTraveled += step;
 
 		auto tile = map.GetTile( pos );
-		if( tile >= 1 )
+		if( tile > 0 )
 		{
-			if( tile == 1 ) tileHitCol = Colors::Gray;
-			else if( tile == 2 ) tileHitCol = Colors::Cyan;
-			else if( tile == 3 ) tileHitCol = Colors::Blue;
+			// TODO:
+			// set int to store x to draw texture with
+			// check x - round( x ) vs y - round( y ) to find the right face
+			hitTileIndex = tile;
 			return( true );
 		}
 		else return( false );
@@ -53,9 +54,13 @@ public:
 	{
 		return( angle );
 	}
-	Color GetColor() const
+	// Color GetColor() const
+	// {
+	// 	return( tileHitCol );
+	// }
+	int GetTileIndex() const
 	{
-		return( tileHitCol );
+		return( hitTileIndex );
 	}
 private:
 	static constexpr float step = 0.1f; // From 0.9.
@@ -64,5 +69,6 @@ private:
 	Vec2 dir;
 	float angle;
 	float distTraveled = 0.0f;
-	Color tileHitCol;
+	// Color tileHitCol;
+	int hitTileIndex = -1;
 };

@@ -29,7 +29,7 @@ void Camera::Draw( const Player& guy,Graphics& gfx ) const
 			std::min( Graphics::ScreenWidth - 1,
 			int( std::round( rayX ) ) + int( std::round( rayWidth ) ) ),
 			std::min( Graphics::ScreenHeight - 1,int( rayBot ) ),
-			ray.GetColor() );
+			colors[ray.GetTileIndex() - 1] );
 
 		rayX -= rayWidth;
 	}
