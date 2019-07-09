@@ -9,12 +9,12 @@ class Camera
 public:
 	void Draw( const Player& guy,Graphics& gfx ) const;
 private:
-	static constexpr Color colors[] =
+	const Surface sprites[3] =
 	{
-		Colors::Gray,
-		Colors::Cyan,
-		Colors::Green
+		"Images/Wall.bmp",
+		"Images/Wall.bmp",
+		"Images/Wall.bmp"
 	};
-	const Surface wallSpr = "Images/Wall.bmp";
-	const Surface wallSpr2 = "Images/Wall3.bmp";
+	static constexpr Vei2 wallSize = { 32,32 };
+	static constexpr float focalLen = 0.6f; // from 0.8
 };
