@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "SpriteEffect.h"
 
 void Camera::Draw( const Player& guy,Graphics& gfx ) const
 {
@@ -24,12 +25,21 @@ void Camera::Draw( const Player& guy,Graphics& gfx ) const
 		const auto rayBot = float( Graphics::ScreenHeight ) / 2.0f *
 			( 1.0f + 1.0f / z );
 
-		gfx.DrawRectDim( std::max( 0,int( std::round( rayX ) ) ),
+		// gfx.DrawRectDim( std::max( 0,int( std::round( rayX ) ) ),
+		// 	std::max( 0,int( rayBot - rayHeight ) ),
+		// 	std::min( Graphics::ScreenWidth - 1,
+		// 		int( std::round( rayX ) ) + int( std::round( rayWidth ) ) ),
+		// 	std::min( Graphics::ScreenHeight - 1,int( rayBot ) ),
+		// 	colors[ray.GetTileIndex() - 1] );
+
+		gfx.DrawSpriteDim( std::max( 0,int( std::round( rayX ) ) ),
 			std::max( 0,int( rayBot - rayHeight ) ),
 			std::min( Graphics::ScreenWidth - 1,
-			int( std::round( rayX ) ) + int( std::round( rayWidth ) ) ),
+				int( std::round( rayX ) ) + int( std::round( rayWidth ) ) ),
 			std::min( Graphics::ScreenHeight - 1,int( rayBot ) ),
-			colors[ray.GetTileIndex() - 1] );
+			int( ray.GetTexX() * float( wallSpr.GetWidth() ) ),
+			std::max( 1,int( ray.GetTexWidth() ) ),
+			wallSpr,SpriteEffect::Copy{} );
 
 		rayX -= rayWidth;
 	}

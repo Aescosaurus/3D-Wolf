@@ -71,6 +71,14 @@ public:
 	{
 		return dword & 0xFFu;
 	}
+	constexpr bool operator==( const Color& rhs ) const
+	{
+		return( dword == rhs.dword );
+	}
+	constexpr bool operator!=( const Color& rhs ) const
+	{
+		return( !( *this == rhs ) );
+	}
 	void SetX( unsigned char x )
 	{
 		dword = (dword & 0xFFFFFFu) | (x << 24u);

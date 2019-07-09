@@ -138,6 +138,14 @@ public:
 	{
 		return Vec2_{ 1.0f,0.0f };
 	}
+	constexpr Vec2_ X() const
+	{
+		return( Vec2_{ x,T( 0 ) } );
+	}
+	constexpr Vec2_ Y() const
+	{
+		return( Vec2_{ T( 0 ),y } );
+	}
 
 	static constexpr float Lerp( float s,float e,float t )
 	{

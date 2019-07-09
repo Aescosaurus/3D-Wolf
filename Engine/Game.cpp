@@ -20,6 +20,7 @@
  ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
+#include "SpriteEffect.h"
 
 Game::Game( MainWindow& wnd )
 	:
@@ -45,4 +46,6 @@ void Game::ComposeFrame()
 {
 	cam.Draw( guy,gfx );
 	tilemap.Draw( guy,gfx );
+	// Surface temp = "Images/Wall.bmp";
+	// gfx.DrawSpriteDim( 0,0,100,400,0,3,temp,SpriteEffect::Copy{} );
 }
