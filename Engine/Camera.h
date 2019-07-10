@@ -11,9 +11,9 @@ public:
 private:
 	const Surface sprites[3] =
 	{
-		"Images/Wall.bmp",
-		"Images/Wall.bmp",
-		"Images/Wall.bmp"
+		"Images/Wall4.bmp",
+		"Images/Wall4.bmp",
+		"Images/Wall4.bmp"
 	};
 	static constexpr Vei2 wallSize = { 32,32 };
 	static constexpr float focalLen = 0.6f; // from 0.8

@@ -12,7 +12,7 @@ void Camera::Draw( const Player& guy,Graphics& gfx ) const
 	const auto& rays = guy.GetRays();
 	// const float resolution = float( rays.size() );
 	const int nRays = int( rays.size() );
-	const float resolution = 320.0f;
+	const float resolution = /*320.0f*/float( nRays );
 	const float rayWidth = float( Graphics::ScreenWidth ) / resolution;
 	float rayX = float( Graphics::ScreenWidth ) - rayWidth;
 	for( int col = 0; col < int( resolution ); ++col )
@@ -33,7 +33,7 @@ void Camera::Draw( const Player& guy,Graphics& gfx ) const
 		// 	std::min( Graphics::ScreenWidth - 1,
 		// 		int( std::round( rayX ) ) + int( std::round( rayWidth ) ) ),
 		// 	std::min( Graphics::ScreenHeight - 1,int( rayBot ) ),
-		// 	colors[ray.GetTileIndex() - 1] );
+		// 	col % 2 == 0 ? Colors::Blue : Colors::Cyan );
 
 		gfx.DrawSpriteDim( std::max( 0,int( std::round( rayX ) ) ),
 			std::max( 0,int( rayBot - rayHeight ) ),
@@ -41,8 +41,8 @@ void Camera::Draw( const Player& guy,Graphics& gfx ) const
 				int( std::round( rayX ) ) + int( std::round( rayWidth ) ) ),
 			std::min( Graphics::ScreenHeight - 1,int( rayBot ) ),
 			int( ray.GetTexX() * float( wallSize.x ) ),
-			// std::max( 1,int( ray.GetTexWidth() ) ),
-			int( z ),
+			std::max( 1,int( ray.GetTexWidth() ) ),
+			// int( z ),
 			sprites[ray.GetTileIndex() - 1],SpriteEffect::Copy{} );
 
 		rayX -= rayWidth;

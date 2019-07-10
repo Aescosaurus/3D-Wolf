@@ -31,38 +31,14 @@ public:
 		const auto tile = map.GetTile( pos );
 		if( tile > 0 )
 		{
-			// const auto stepX = CalcTextureOffset( std::sin( angle ),
-			// 	std::cos( angle ),pos.x,pos.y,false );
-			// const auto stepY = CalcTextureOffset( std::cos( angle ),
-			// 	std::sin( angle ),pos.y,pos.x,true );
-			// 
-			// // textureX = stepX.GetLengthSq() < stepY.GetLengthSq()
-			// // 	? stepX.y : stepY.x;
-			// if( stepX.GetLengthSq() < stepY.GetLengthSq() )
-			// {
-			// 	textureX = stepX.y;
-			// 	hitColor = Colors::Red;
-			// }
-			// else
-			// {
-			// 	textureX = stepY.x;
-			// 	hitColor = Colors::Cyan;
-			// }
-			// 
-			// textureX = textureX - std::floor( textureX );
+			// //Calculate distance of perpendicular ray (Euclidean distance will give fisheye effect!)
+			// if( side == 0 ) perpWallDist = ( mapX - posX + ( 1 - stepX ) / 2 ) / rayDirX;
+			// else           perpWallDist = ( mapY - posY + ( 1 - stepY ) / 2 ) / rayDirY;
 
-			// const auto xDiff = pos.x - std::round( pos.x );
-			// const auto yDiff = pos.y - std::round( pos.y );
-			// if( xDiff > yDiff )
-			// {
-			// 	textureX = xDiff;
-			// 	hitColor = Colors::Red;
-			// }
-			// else
-			// {
-			// 	textureX = yDiff;
-			// 	hitColor = Colors::Blue;
-			// }
+			// //calculate value of wallX
+			// double wallX; //where exactly the wall was hit
+			// if( side == 0 ) wallX = posY + perpWallDist * rayDirY;
+			// else           wallX = posX + perpWallDist * rayDirX;
 
 			const auto xDiff = std::abs( pos.x - std::floor( pos.x ) );
 			const auto yDiff = std::abs( pos.y - std::floor( pos.y ) );
