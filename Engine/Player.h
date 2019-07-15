@@ -1,28 +1,22 @@
 #pragma once
 
-#include "Map.h"
 #include "Keyboard.h"
+#include "Mouse.h"
 #include "Graphics.h"
 #include "Vec2.h"
-#include "ChiliUtils.h"
-#include <vector>
-#include "Ray.h"
+#include "TileMap.h"
 
 class Player
 {
 public:
-	void Update( const Keyboard& kbd,const Map& tilemap );
-	
+	void Update( const Keyboard& kbd,const Mouse& mouse,float dt );
+	void Draw( Graphics& gfx ) const;
+
 	const Vec2& GetPos() const;
 	float GetAngle() const;
-	const std::vector<Ray>& GetRays() const;
 private:
-	static constexpr float speed = 0.07f;
-	static constexpr float rotSpeed = chili::deg2rad( 5.5f );
-	Vec2 pos = { float( Map::width ) / 2.0f,
-		float( Map::height ) / 2.0f };
+	Vec2 pos = { 10,10 };
 	float angle = 0.0f;
-	static constexpr int fov = 90;
-	static constexpr int nRays = 90;
-	std::vector<Ray> rays;
+	static constexpr float moveSpeed = 10.0f;
+	static constexpr float rotSpeed = 5.0f;
 };

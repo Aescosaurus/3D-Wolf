@@ -1,5 +1,5 @@
-/******************************************************************************************
- *	Chili DirectX Framework Version 16.07.20											  *
+/****************************************************************************************** 
+ *	Chili DirectX Framework Version 16.07.20											  *	
  *	Game.cpp																			  *
  *	Copyright 2016 PlanetChili.net <http://www.planetchili.net>							  *
  *																						  *
@@ -20,7 +20,6 @@
  ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
-#include "SpriteEffect.h"
 
 Game::Game( MainWindow& wnd )
 	:
@@ -31,7 +30,7 @@ Game::Game( MainWindow& wnd )
 
 void Game::Go()
 {
-	gfx.BeginFrame();
+	gfx.BeginFrame();	
 	UpdateModel();
 	ComposeFrame();
 	gfx.EndFrame();
@@ -39,13 +38,12 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	guy.Update( wnd.kbd,tilemap );
+	guy.Update( wnd.kbd,wnd.mouse,1.0f / 60.0f );
 }
 
 void Game::ComposeFrame()
 {
-	cam.Draw( guy,gfx );
-	tilemap.Draw( guy,gfx );
-	// Surface temp = "Images/Wall.bmp";
-	// gfx.DrawSpriteDim( 0,0,100,400,0,3,temp,SpriteEffect::Copy{} );
+	cam.Draw( map,guy,gfx );
+	map.Draw( gfx );
+	guy.Draw( gfx );
 }

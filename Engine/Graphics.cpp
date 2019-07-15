@@ -252,11 +252,6 @@ Graphics::~Graphics()
 	if( pImmediateContext ) pImmediateContext->ClearState();
 }
 
-RectI Graphics::GetScreenRect()
-{
-	return( RectI{ { 0,0 },ScreenWidth,ScreenHeight } );
-}
-
 void Graphics::EndFrame()
 {
 	HRESULT hr;
@@ -332,77 +327,53 @@ void Graphics::DrawRect( int x,int y,int width,int height,Color c )
 	}
 }
 
-void Graphics::DrawRectDim( int x,int y,int x2,int y2,Color c )
+void Graphics::DrawRectSafe( int x,int y,int width,int height,Color c )
 {
-	for( int yY = y; yY < y2; ++yY )
-	{
-		for( int xX = x; xX < x2; ++xX )
-		{
-			// if( xX >= 0 && xX < ScreenWidth &&
-			// 	yY >= 0 && yY < ScreenHeight )
-			{
-				PutPixel( xX,yY,c );
-			}
-		}
-	}
-}
+	if( x < 0 ) x = 0;
+	if( y < 0 ) y = 0;
+	if( x + width >= ScreenWidth ) width = ScreenWidth - x - 1;
+	if( y + height >= ScreenHeight ) height = ScreenHeight - y - 1;
 
-void Graphics::DrawCircle( int x,int y,int radius,Color c )
-{
-	const auto radSq = radius * radius;
-	for( int yY = y - radius; yY < y + radius; ++yY )
-	{
-		for( int xX = x - radius; xX < x + radius; ++xX )
-		{
-			const auto xDiff = x - xX;
-			const auto yDiff = y - yY;
-			if( xDiff * xDiff + yDiff * yDiff < radSq )
-			{
-				PutPixel( xX,yY,c );
-			}
-		}
-	}
+	DrawRect( x,y,width,height,c );
 }
 
 void Graphics::DrawLine( Vec2 p0,Vec2 p1,Color c )
 {
 	float m = 0.0f;
-	if( p0.x != p1.x )
+	if( p1.x != p0.x )
 	{
 		m = ( p1.y - p0.y ) / ( p1.x - p0.x );
 	}
 
-	if( p0.x != p1.x && abs( m ) < 1.0f )
+	if( p1.x != p0.x && std::abs( m ) <= 1.0f )
 	{
-		if( p0.x > p1.x ) std::swap( p0,p1 );
+		if( p0.x > p1.x )
+		{
+			std::swap( p0,p1 );
+		}
 
 		const float b = p0.y - m * p0.x;
 
-		for( int x = int( p0.x ); x < int( p1.x ); ++x )
+		for( int x = int( p0.x ); x < int( p1.x ); x++ )
 		{
 			const float y = m * float( x ) + b;
-			// if( x >= 0 && x < ScreenWidth &&
-			// 	y >= 0.0f && y < float( ScreenHeight ) )
-			{
-				PutPixel( x,int( y ),c );
-			}
+			PutPixel( x,int( y ),c );
 		}
 	}
 	else
 	{
-		if( p0.y > p1.y ) std::swap( p0,p1 );
+		if( p0.y > p1.y )
+		{
+			std::swap( p0,p1 );
+		}
 
 		const float w = ( p1.x - p0.x ) / ( p1.y - p0.y );
 		const float p = p0.x - w * p0.y;
 
-		for( int y = int( p0.y ); y < int( p1.y ); ++y )
+		for( int y = int( p0.y ); y < int( p1.y ); y++ )
 		{
 			const float x = w * float( y ) + p;
-			// if( x >= 0.0f && x < float( ScreenWidth ) &&
-			// 	y >= 0 && y < ScreenHeight )
-			{
-				PutPixel( int( x ),y,c );
-			}
+			PutPixel( int( x ),y,c );
 		}
 	}
 }

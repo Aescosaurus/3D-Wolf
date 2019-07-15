@@ -37,10 +37,6 @@ public:
 
 	// Expand a surface by amount.
 	Surface GetExpandedBy( const Vei2& amount ) const;
-	// Bilinearly interpolate a surface to be width wide and height high.
-	Surface GetInterpolatedTo( int width,int height ) const;
-	// Nearest neighbor interpolation.
-	Surface GetNNInterpolatedTo( const Vei2& size ) const;
 	// Get a surface flipped over the y axis.
 	Surface GetXReversed() const;
 	// Get a surface flipped over the x axis.

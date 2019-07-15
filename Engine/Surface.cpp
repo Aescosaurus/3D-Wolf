@@ -180,63 +180,6 @@ Surface Surface::GetExpandedBy( const Vei2& amount ) const
 	return( bigger );
 }
 
-// https://rosettacode.org/wiki/Bilinear_interpolation helped a lot with this conversion code.
-Surface Surface::GetInterpolatedTo( int width,int height ) const
-{
-	const int newWidth = width;
-	const int newHeight = height;
-	Surface newImage = Surface( newWidth,newHeight );
-	for( int x = 0; x < newWidth; ++x )
-	{
-		for( int y = 0; y < newHeight; ++y )
-		{
-			const float gx = ( float( x ) ) / newWidth * ( GetWidth() - 1 );
-			const float gy = ( float( y ) ) / newHeight * ( GetHeight() - 1 );
-			const int gxi = int( gx );
-			const int gyi = int( gy );
-			int rgb = 0;
-			const int c00 = GetPixel( gxi,gyi ).dword;
-			const int c10 = GetPixel( gxi + 1,gyi ).dword;
-			const int c01 = GetPixel( gxi,gyi + 1 ).dword;
-			const int c11 = GetPixel( gxi + 1,gyi + 1 ).dword;
-			for( int i = 0; i <= 2; ++i )
-			{
-				const int b00 = ( c00 >> ( i * 8 ) ) & 0xFF;
-				const int b10 = ( c10 >> ( i * 8 ) ) & 0xFF;
-				const int b01 = ( c01 >> ( i * 8 ) ) & 0xFF;
-				const int b11 = ( c11 >> ( i * 8 ) ) & 0xFF;
-				const int ble = ( int( Vec2
-					::Blerp( float( b00 ),float( b10 ),
-						float( b01 ),float( b11 ),
-						gx - float( gxi ),gy - float( gyi ) ) ) )
-					<< ( 8 * i );
-				rgb = rgb | ble;
-			}
-			newImage.PutPixel( x,y,rgb );
-		}
-	}
-	return newImage;
-}
-
-Surface Surface::GetNNInterpolatedTo( const Vei2& size ) const
-{
-	Surface temp{ size.x,size.y };
-	const float xRatio = float( width ) / float( size.x );
-	const float yRatio = float( height ) / float( size.y );
-
-	for( int y = 0; y < size.y; ++y )
-	{
-		for( int x = 0; x < size.x; ++x )
-		{
-			const auto xPos = int( x * xRatio );
-			const auto yPos = int( y * yRatio );
-			temp.PutPixel( x,y,GetPixel( xPos,yPos ) );
-		}
-	}
-
-	return( temp );
-}
-
 Surface Surface::GetXReversed() const
 {
 	Surface flipped = Surface{ width,height };

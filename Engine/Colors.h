@@ -71,14 +71,6 @@ public:
 	{
 		return dword & 0xFFu;
 	}
-	constexpr bool operator==( const Color& rhs ) const
-	{
-		return( dword == rhs.dword );
-	}
-	constexpr bool operator!=( const Color& rhs ) const
-	{
-		return( !( *this == rhs ) );
-	}
 	void SetX( unsigned char x )
 	{
 		dword = (dword & 0xFFFFFFu) | (x << 24u);
@@ -111,7 +103,6 @@ namespace Colors
 	static constexpr Color Black = MakeRGB( 0u,0u,0u );
 	static constexpr Color Gray = MakeRGB( 0x80u,0x80u,0x80u );
 	static constexpr Color LightGray = MakeRGB( 0xD3u,0xD3u,0xD3u );
-	static constexpr Color DarkGray = MakeRGB( 0x40u,0x40u,0x40u );
 	static constexpr Color Red = MakeRGB( 255u,0u,0u );
 	static constexpr Color Green = MakeRGB( 0u,255u,0u );
 	static constexpr Color Blue = MakeRGB( 0u,0u,255u );

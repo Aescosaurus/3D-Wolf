@@ -1,50 +1,31 @@
 #include "Camera.h"
-#include "SpriteEffect.h"
 
-void Camera::Draw( const Player& guy,Graphics& gfx ) const
+void Camera::Draw( const TileMap& tilemap,const Player& player,Graphics& gfx ) const
 {
-	gfx.DrawRect( 0,0,Graphics::ScreenWidth,
-		Graphics::ScreenHeight / 2,Colors::DarkGray );
-	gfx.DrawRect( 0,Graphics::ScreenHeight / 2,
-		Graphics::ScreenWidth,Graphics::ScreenHeight / 2,
-		Colors::LightGray );
-
-	const auto& rays = guy.GetRays();
-	// const float resolution = float( rays.size() );
-	const int nRays = int( rays.size() );
-	const float resolution = /*320.0f*/float( nRays );
-	const float rayWidth = float( Graphics::ScreenWidth ) / resolution;
-	float rayX = float( Graphics::ScreenWidth ) - rayWidth;
 	for( int col = 0; col < int( resolution ); ++col )
 	{
-		const auto& ray = rays[int( float( col ) /
-			( resolution / float( nRays ) ) )];
-
-		// Famcy maffs.
-		const auto x = col / resolution - 0.5f;
-		const auto angle = std::atan2( x,focalLen );
-		const auto z = ray.GetDist() * std::cos( angle );
-		const auto rayHeight = Graphics::ScreenHeight * ( 1.0f / z );
-		const auto rayBot = float( Graphics::ScreenHeight ) / 2.0f *
-			( 1.0f + 1.0f / z );
-
-		// gfx.DrawRectDim( std::max( 0,int( std::round( rayX ) ) ),
-		// 	std::max( 0,int( rayBot - rayHeight ) ),
-		// 	std::min( Graphics::ScreenWidth - 1,
-		// 		int( std::round( rayX ) ) + int( std::round( rayWidth ) ) ),
-		// 	std::min( Graphics::ScreenHeight - 1,int( rayBot ) ),
-		// 	col % 2 == 0 ? Colors::Blue : Colors::Cyan );
-
-		gfx.DrawSpriteDim( std::max( 0,int( std::round( rayX ) ) ),
-			std::max( 0,int( rayBot - rayHeight ) ),
-			std::min( Graphics::ScreenWidth - 1,
-				int( std::round( rayX ) ) + int( std::round( rayWidth ) ) ),
-			std::min( Graphics::ScreenHeight - 1,int( rayBot ) ),
-			int( ray.GetTexX() * float( wallSize.x ) ),
-			std::max( 1,int( ray.GetTexWidth() ) ),
-			// int( z ),
-			sprites[ray.GetTileIndex() - 1],SpriteEffect::Copy{} );
-
-		rayX -= rayWidth;
+		const float x = float( col ) / resolution - 0.5f;
+		const float angle = std::atan2( x,focalLen );
+		Ray ray = tilemap.CastSingleRay( player.GetPos(),player.GetAngle() + angle );
+		DrawSingleRay( col,ray,angle,gfx );
 	}
+}
+
+void Camera::DrawSingleRay( int col,const Ray& ray,float angle,Graphics& gfx ) const
+{
+	const float left = std::floor( float( col ) * rayWidth );
+	const float z = ray.GetDist() * std::cos( angle );
+	const float wallHeight = float( Graphics::ScreenHeight ) * 1.0f / z;
+	const float bottom = float( Graphics::ScreenHeight ) / 2.0f *
+		( 1.0f + 1.0f / z );
+
+	// gfx.DrawRectSafe( int( left ),int( bottom - wallHeight ),
+	// 	int( std::ceil( rayWidth ) ),int( wallHeight ),Colors::Red );
+
+	const int texX = int( ray.GetOffset() * float( wallSpr.GetWidth() ) );
+
+	gfx.DrawSprite( RectI{ texX,texX + 1,0,wallSpr.GetHeight() },
+		RectI{ int( left ),int( left + std::ceil( rayWidth ) ),
+		int( bottom - wallHeight ),int( bottom ) },
+		wallSpr );
 }

@@ -1,20 +1,20 @@
 #pragma once
 
-#include "Player.h"
 #include "Graphics.h"
+#include "TileMap.h"
+#include "Ray.h"
+#include "Player.h"
 #include "Surface.h"
 
 class Camera
 {
 public:
-	void Draw( const Player& guy,Graphics& gfx ) const;
+	void Draw( const TileMap& tilemap,const Player& player,Graphics& gfx ) const;
 private:
-	const Surface sprites[3] =
-	{
-		"Images/Wall4.bmp",
-		"Images/Wall4.bmp",
-		"Images/Wall4.bmp"
-	};
-	static constexpr Vei2 wallSize = { 32,32 };
-	static constexpr float focalLen = 0.6f; // from 0.8
+	void DrawSingleRay( int col,const Ray& ray,float angle,Graphics& gfx ) const;
+private:
+	static constexpr float resolution = 320.0f;
+	static constexpr float rayWidth = Graphics::ScreenWidth / resolution;
+	static constexpr float focalLen = 0.8f;
+	Surface wallSpr = "Images/Wall4.bmp";
 };

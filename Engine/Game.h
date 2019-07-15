@@ -23,7 +23,7 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
-#include "Map.h"
+#include "TileMap.h"
 #include "Player.h"
 #include "Camera.h"
 
@@ -45,8 +45,8 @@ private:
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
-	Map tilemap;
-	Player guy;
 	Camera cam;
+	TileMap map;
+	Player guy;
 	/********************************/
 };

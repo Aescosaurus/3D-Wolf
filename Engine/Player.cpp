@@ -1,24 +1,34 @@
 #include "Player.h"
 
-void Player::Update( const Keyboard& kbd,const Map& tilemap )
+void Player::Update( const Keyboard& kbd,const Mouse& mouse,float dt )
 {
-	if( kbd.KeyIsPressed( 'W' ) ) pos += Vec2::FromAngle( angle ) * speed;
-	if( kbd.KeyIsPressed( 'S' ) ) pos -= Vec2::FromAngle( angle ) * speed;
-	if( kbd.KeyIsPressed( 'A' ) ) angle -= rotSpeed;
-	if( kbd.KeyIsPressed( 'D' ) ) angle += rotSpeed;
-
-	// TODO: Collision detection of some kind.
-
-	rays.clear();
-	for( int i = -fov / 2; i < fov / 2; i += fov / nRays )
+	if( kbd.KeyIsPressed( 'W' ) )
 	{
-		// rays.emplace_back( Ray{ pos,Vec2::FromAngle(
-		// 	angle - chili::deg2rad( float( i ) ) ) } );
-		rays.emplace_back( Ray{ pos,
-			angle - chili::deg2rad( float( i ) ) } );
-
-		while( !rays.back().Go( tilemap ) );
+		pos += Vec2::FromAngle( angle ) * moveSpeed * dt;
 	}
+	if( kbd.KeyIsPressed( 'S' ) )
+	{
+		pos -= Vec2::FromAngle( angle ) * moveSpeed * dt;
+	}
+	if( kbd.KeyIsPressed( 'A' ) )
+	{
+		angle -= rotSpeed * dt;
+	}
+	if( kbd.KeyIsPressed( 'D' ) )
+	{
+		angle += rotSpeed * dt;
+	}
+}
+
+void Player::Draw( Graphics& gfx ) const
+{
+	const auto drawPos = Vei2( pos * float( TileMap::minimapSize ) );
+
+	gfx.DrawRect( drawPos.x - 2,drawPos.y - 2,5,5,Colors::Red );
+
+	gfx.DrawLine( drawPos,
+		drawPos + Vec2::FromAngle( angle ) * 10.0f,
+		Colors::Red );
 }
 
 const Vec2& Player::GetPos() const
@@ -29,9 +39,4 @@ const Vec2& Player::GetPos() const
 float Player::GetAngle() const
 {
 	return( angle );
-}
-
-const std::vector<Ray>& Player::GetRays() const
-{
-	return( rays );
 }
