@@ -57,12 +57,21 @@ Ray TileMap::CastSingleRay( const Vec2& start,float angle ) const
 		temp.Advance();
 	}
 
+	bool isXOrY; // true = x false = y
+	const auto& rayPos = temp.GetPos();
+	const auto oldRayPos = temp.GetPrevPos();
+
+	isXOrY = int( rayPos.x ) == int( oldRayPos.x );
+
 	const Vec3 stepX = CalcStepOffset( std::sin( angle ),
 		std::cos( angle ),temp.GetPos().x,temp.GetPos().y,false );
 	const Vec3 stepY = CalcStepOffset( std::cos( angle ),
 		std::sin( angle ),temp.GetPos().y,temp.GetPos().x,true );
 
-	if( stepX.z < stepY.z ) temp.SetOffset( stepX.y - std::floor( stepX.y ) );
+	// if( stepX.z < stepY.z ) temp.SetOffset( stepX.y - std::floor( stepX.y ) );
+	// else temp.SetOffset( stepY.x - std::floor( stepY.x ) );
+
+	if( isXOrY ) temp.SetOffset( stepX.y - std::floor( stepX.y ) );
 	else temp.SetOffset( stepY.x - std::floor( stepY.x ) );
 
 	return( temp );

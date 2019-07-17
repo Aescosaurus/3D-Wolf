@@ -34,6 +34,10 @@ public:
 	{
 		return( pos );
 	}
+	Vec2 GetPrevPos() const
+	{
+		return( pos - dir * step );
+	}
 	float GetDist() const
 	{
 		return( ( pos - start ).GetLength() );
