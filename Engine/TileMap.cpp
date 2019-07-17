@@ -51,28 +51,43 @@ void TileMap::Draw( Graphics& gfx ) const
 Ray TileMap::CastSingleRay( const Vec2& start,float angle ) const
 {
 	Ray temp{ start,angle };
-
-	while( GetTile( Vei2( temp.GetPos() ) ) == TileType::Empty )
+	bool foundWall = false;
+	const auto sin = std::sin( angle );
+	const auto cos = std::cos( angle );
+	
+	// while( GetTile( temp.GetPos() ) == TileType::Empty )
+	while( !foundWall )
 	{
-		temp.Advance();
+		const Vec3 stepX = CalcStepOffset( sin,
+			cos,temp.GetPos().x,temp.GetPos().y,false );
+		const Vec3 stepY = CalcStepOffset( cos,
+			sin,temp.GetPos().y,temp.GetPos().x,true );
+
+		if( stepX.z < stepY.z )
+		{
+			temp.SetPos( stepX );
+			temp.SetOffset( stepX.y - std::floor( stepX.y ) );
+
+			const auto dx = cos < 0 ? 1 : 0;
+			if( GetTile( Vei2( temp.GetPos() ) -
+				Vei2{ dx,0 } ) != TileType::Empty )
+			{
+				foundWall = true;
+			}
+		}
+		else
+		{
+			temp.SetPos( stepY );
+			temp.SetOffset( stepY.x - std::floor( stepY.x ) );
+
+			const auto dy = sin < 0 ? 1 : 0;
+			if( GetTile( Vei2( temp.GetPos() ) -
+				Vei2{ 0,dy } ) != TileType::Empty )
+			{
+				foundWall = true;
+			}
+		}
 	}
-
-	bool isXOrY; // true = x false = y
-	const auto& rayPos = temp.GetPos();
-	const auto oldRayPos = temp.GetPrevPos();
-
-	isXOrY = int( rayPos.x ) == int( oldRayPos.x );
-
-	const Vec3 stepX = CalcStepOffset( std::sin( angle ),
-		std::cos( angle ),temp.GetPos().x,temp.GetPos().y,false );
-	const Vec3 stepY = CalcStepOffset( std::cos( angle ),
-		std::sin( angle ),temp.GetPos().y,temp.GetPos().x,true );
-
-	// if( stepX.z < stepY.z ) temp.SetOffset( stepX.y - std::floor( stepX.y ) );
-	// else temp.SetOffset( stepY.x - std::floor( stepY.x ) );
-
-	if( isXOrY ) temp.SetOffset( stepX.y - std::floor( stepX.y ) );
-	else temp.SetOffset( stepY.x - std::floor( stepY.x ) );
 
 	return( temp );
 }
