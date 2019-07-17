@@ -17,40 +17,15 @@ public:
 		gfx.DrawLine( start * expand,pos * expand,Colors::Green );
 	}
 
-	void SetOffset( float offset )
-	{
-		texOffset = offset;
-	}
-	void SetPos( const Vec2& pos )
-	{
-		this->pos = pos;
-	}
-	void SetHeight( int height )
-	{
-		this->height = height;
-	}
-
-	float GetOffset() const
-	{
-		return( texOffset );
-	}
-	const Vec2& GetPos() const
-	{
-		return( pos );
-	}
 	float GetDist() const
 	{
 		return( ( pos - start ).GetLength() );
 	}
-	int GetHeight() const
-	{
-		return( height );
-	}
-private:
+public:
 	Vec2 start;
 	Vec2 pos;
 	Vec2 dir;
-	int height;
-	float texOffset = -1.0f;
+	int height = -1;
+	float offset = -1.0f;
 	static constexpr float step = 0.1f;
 };

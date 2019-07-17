@@ -32,7 +32,7 @@ void Camera::DrawSingleRay( int col,const Ray& ray,float angle,Graphics& gfx ) c
 	// gfx.DrawRectSafe( int( left ),int( bottom - wallHeight ),
 	// 	int( std::ceil( rayWidth ) ),int( wallHeight ),Colors::Red );
 
-	const int texX = int( ray.GetOffset() * float( wallSpr.GetWidth() ) );
+	const int texX = int( ray.offset * float( wallSpr.GetWidth() ) );
 
 	gfx.DrawSprite( RectI{ texX,texX + 1,0,wallSpr.GetHeight() },
 		RectI{ int( left ),int( left + std::ceil( rayWidth ) ),

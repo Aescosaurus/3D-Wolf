@@ -59,17 +59,17 @@ Ray TileMap::CastSingleRay( const Vec2& start,float angle ) const
 	while( !foundWall )
 	{
 		const Vec3 stepX = CalcStepOffset( sin,
-			cos,temp.GetPos().x,temp.GetPos().y,false );
+			cos,temp.pos.x,temp.pos.y,false );
 		const Vec3 stepY = CalcStepOffset( cos,
-			sin,temp.GetPos().y,temp.GetPos().x,true );
+			sin,temp.pos.y,temp.pos.x,true );
 
 		if( stepX.z < stepY.z )
 		{
-			temp.SetPos( stepX );
-			temp.SetOffset( stepX.y - std::floor( stepX.y ) );
+			temp.pos = stepX;
+			temp.offset = stepX.y - std::floor( stepX.y );
 
 			const auto dx = cos < 0 ? 1 : 0;
-			if( GetTile( Vei2( temp.GetPos() ) -
+			if( GetTile( Vei2( temp.pos ) -
 				Vei2{ dx,0 } ) != TileType::Empty )
 			{
 				foundWall = true;
@@ -77,11 +77,11 @@ Ray TileMap::CastSingleRay( const Vec2& start,float angle ) const
 		}
 		else
 		{
-			temp.SetPos( stepY );
-			temp.SetOffset( stepY.x - std::floor( stepY.x ) );
+			temp.pos = stepY;
+			temp.offset = stepY.x - std::floor( stepY.x );
 
 			const auto dy = sin < 0 ? 1 : 0;
-			if( GetTile( Vei2( temp.GetPos() ) -
+			if( GetTile( Vei2( temp.pos ) -
 				Vei2{ 0,dy } ) != TileType::Empty )
 			{
 				foundWall = true;
