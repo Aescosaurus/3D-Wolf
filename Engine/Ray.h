@@ -12,6 +12,11 @@ public:
 		dir( Vec2::FromAngle( angle ) )
 	{}
 
+	void Draw( float expand,Graphics& gfx ) const
+	{
+		gfx.DrawLine( start * expand,pos * expand,Colors::Green );
+	}
+
 	void Advance()
 	{
 		pos += dir * step;

@@ -2,12 +2,22 @@
 
 void Camera::Draw( const TileMap& tilemap,const Player& player,Graphics& gfx ) const
 {
+	rays.clear();
 	for( int col = 0; col < int( resolution ); ++col )
 	{
 		const float x = float( col ) / resolution - 0.5f;
 		const float angle = std::atan2( x,focalLen );
 		Ray ray = tilemap.CastSingleRay( player.GetPos(),player.GetAngle() + angle );
+		rays.emplace_back( ray );
 		DrawSingleRay( col,ray,angle,gfx );
+	}
+}
+
+void Camera::DrawRays( Graphics& gfx ) const
+{
+	for( const auto& ray : rays )
+	{
+		ray.Draw( TileMap::minimapSize,gfx );
 	}
 }
 

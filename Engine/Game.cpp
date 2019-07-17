@@ -45,5 +45,6 @@ void Game::ComposeFrame()
 {
 	cam.Draw( map,guy,gfx );
 	map.Draw( gfx );
+	cam.DrawRays( gfx );
 	guy.Draw( gfx );
 }
