@@ -18,6 +18,6 @@ public:
 private:
 	Vec2 pos = { 10,10 };
 	float angle = 0.0f;
-	static constexpr float moveSpeed = 10.0f;
-	static constexpr float rotSpeed = 5.0f;
+	static constexpr float moveSpeed = 3.0f;
+	static constexpr float rotSpeed = 2.0f;
 };

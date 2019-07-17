@@ -38,6 +38,21 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	if( wnd.kbd.KeyIsPressed( VK_ESCAPE ) )
+	{
+		wnd.Minimize();
+	}
+	if( wnd.kbd.KeyIsPressed( VK_CONTROL ) &&
+		wnd.kbd.KeyIsPressed( 'F' ) )
+	{
+		wnd.Maximize();
+	}
+	if( wnd.kbd.KeyIsPressed( VK_CONTROL ) &&
+		wnd.kbd.KeyIsPressed( 'W' ) )
+	{
+		wnd.Kill();
+	}
+
 	guy.Update( wnd.kbd,wnd.mouse,map,1.0f / 60.0f );
 }
 

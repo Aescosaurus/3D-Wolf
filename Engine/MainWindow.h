@@ -67,10 +67,15 @@ public:
 	{
 		return args;
 	}
+	void Maximize();
+	void Minimize();
 private:
 	static LRESULT WINAPI _HandleMsgSetup( HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam );
 	static LRESULT WINAPI _HandleMsgThunk( HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam );
 	LRESULT HandleMsg( HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam );
+	int GetScreenWidth() const;
+	int GetScreenHeight() const;
+	void KeepMouseOnScreen();
 public:
 	Keyboard kbd;
 	Mouse mouse;
@@ -78,4 +83,5 @@ private:
 	static constexpr wchar_t* wndClassName = L"Chili DirectX Framework Window";
 	HINSTANCE hInst = nullptr;
 	std::wstring args;
+	bool fullscreen = true;
 };
