@@ -2,6 +2,13 @@
 
 void Camera::Draw( const TileMap& tilemap,const Player& player,Graphics& gfx ) const
 {
+	gfx.DrawRect( 0,0,
+		Graphics::ScreenWidth,Graphics::ScreenHeight / 2,
+		Colors::Gray );
+	gfx.DrawRect( 0,Graphics::ScreenHeight / 2,
+		Graphics::ScreenWidth,Graphics::ScreenHeight / 2,
+		Colors::LightGray );
+	
 	rays.clear();
 	for( int col = 0; col < int( resolution ); ++col )
 	{

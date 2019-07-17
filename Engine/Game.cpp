@@ -38,7 +38,7 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	guy.Update( wnd.kbd,wnd.mouse,1.0f / 60.0f );
+	guy.Update( wnd.kbd,wnd.mouse,map,1.0f / 60.0f );
 }
 
 void Game::ComposeFrame()

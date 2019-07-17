@@ -1,15 +1,8 @@
 #include "Player.h"
 
-void Player::Update( const Keyboard& kbd,const Mouse& mouse,float dt )
+void Player::Update( const Keyboard& kbd,const Mouse& mouse,
+	const TileMap& map,float dt )
 {
-	if( kbd.KeyIsPressed( 'W' ) )
-	{
-		pos += Vec2::FromAngle( angle ) * moveSpeed * dt;
-	}
-	if( kbd.KeyIsPressed( 'S' ) )
-	{
-		pos -= Vec2::FromAngle( angle ) * moveSpeed * dt;
-	}
 	if( kbd.KeyIsPressed( 'A' ) )
 	{
 		angle -= rotSpeed * dt;
@@ -17,6 +10,31 @@ void Player::Update( const Keyboard& kbd,const Mouse& mouse,float dt )
 	if( kbd.KeyIsPressed( 'D' ) )
 	{
 		angle += rotSpeed * dt;
+	}
+
+	float dx = 0.0f;
+	float dy = 0.0f;
+
+	if( kbd.KeyIsPressed( 'W' ) )
+	{
+		dx += std::cos( angle ) * moveSpeed * dt;
+		dy += std::sin( angle ) * moveSpeed * dt;
+	}
+	if( kbd.KeyIsPressed( 'S' ) )
+	{
+		dx -= std::cos( angle ) * moveSpeed * dt;
+		dy -= std::sin( angle ) * moveSpeed * dt;
+	}
+
+	if( map.GetTile( Vei2( Vec2{ pos.x + dx,pos.y } ) ) ==
+		TileMap::TileType::Empty )
+	{
+		pos.x += dx;
+	}
+	if( map.GetTile( Vei2( Vec2{ pos.x,pos.y + dy } ) ) ==
+		TileMap::TileType::Empty )
+	{
+		pos.y += dy;
 	}
 }
 

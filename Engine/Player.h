@@ -9,7 +9,8 @@
 class Player
 {
 public:
-	void Update( const Keyboard& kbd,const Mouse& mouse,float dt );
+	void Update( const Keyboard& kbd,const Mouse& mouse,
+		const TileMap& map,float dt );
 	void Draw( Graphics& gfx ) const;
 
 	const Vec2& GetPos() const;
