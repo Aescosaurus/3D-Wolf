@@ -16,7 +16,7 @@ private:
 private:
 	static constexpr float resolution = 320.0f;
 	static constexpr float rayWidth = Graphics::ScreenWidth / resolution;
-	static constexpr float focalLen = 0.6f;
+	static constexpr float focalLen = 0.8f;
 	Surface wallSpr = "Images/Wall4.bmp";
 	mutable std::vector<Ray> rays;
 };

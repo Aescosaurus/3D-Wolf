@@ -5,12 +5,13 @@
 #include "Graphics.h"
 #include "Vec2.h"
 #include "TileMap.h"
+#include "MainWindow.h"
 
 class Player
 {
 public:
-	void Update( const Keyboard& kbd,const Mouse& mouse,
-		const TileMap& map,float dt );
+	void Update( const Keyboard& kbd,Mouse& mouse,
+		MainWindow& wnd,const TileMap& map,float dt );
 	void Draw( Graphics& gfx ) const;
 
 	const Vec2& GetPos() const;
@@ -18,6 +19,7 @@ public:
 private:
 	Vec2 pos = { 10,10 };
 	float angle = 0.0f;
-	static constexpr float moveSpeed = 3.0f;
-	static constexpr float rotSpeed = 2.0f;
+	static constexpr float moveSpeed = 5.0f;
+	static constexpr float rotSpeed = 2.0f / 25.0f;
+	Vei2 lastMousePos = { 0,0 };
 };

@@ -69,6 +69,7 @@ public:
 	}
 	void Maximize();
 	void Minimize();
+	void CenterMouse();
 private:
 	static LRESULT WINAPI _HandleMsgSetup( HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam );
 	static LRESULT WINAPI _HandleMsgThunk( HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam );

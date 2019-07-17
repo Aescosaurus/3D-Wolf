@@ -252,6 +252,11 @@ Graphics::~Graphics()
 	if( pImmediateContext ) pImmediateContext->ClearState();
 }
 
+RectI Graphics::GetScreenRect()
+{
+	return( RectI{ 0,ScreenWidth,0,ScreenHeight } );
+}
+
 void Graphics::EndFrame()
 {
 	HRESULT hr;

@@ -53,7 +53,7 @@ void Game::UpdateModel()
 		wnd.Kill();
 	}
 
-	guy.Update( wnd.kbd,wnd.mouse,map,1.0f / 60.0f );
+	guy.Update( wnd.kbd,wnd.mouse,wnd,map,1.0f / 60.0f );
 }
 
 void Game::ComposeFrame()

@@ -1,16 +1,10 @@
 #include "Player.h"
+#include "ChiliUtils.h"
 
-void Player::Update( const Keyboard& kbd,const Mouse& mouse,
-	const TileMap& map,float dt )
+void Player::Update( const Keyboard& kbd,Mouse& mouse,
+	MainWindow& wnd,const TileMap& map,float dt )
 {
-	if( kbd.KeyIsPressed( 'A' ) )
-	{
-		angle -= rotSpeed * dt;
-	}
-	if( kbd.KeyIsPressed( 'D' ) )
-	{
-		angle += rotSpeed * dt;
-	}
+	angle += ( mouse.GetPosX() - lastMousePos.x ) * rotSpeed * dt;
 
 	float dx = 0.0f;
 	float dy = 0.0f;
@@ -25,6 +19,16 @@ void Player::Update( const Keyboard& kbd,const Mouse& mouse,
 		dx -= std::cos( angle ) * moveSpeed * dt;
 		dy -= std::sin( angle ) * moveSpeed * dt;
 	}
+	if( kbd.KeyIsPressed( 'A' ) )
+	{
+		dx -= std::cos( angle + chili::pi / 2.0f ) * moveSpeed * dt;
+		dy -= std::sin( angle + chili::pi / 2.0f ) * moveSpeed * dt;
+	}
+	if( kbd.KeyIsPressed( 'D' ) )
+	{
+		dx += std::cos( angle + chili::pi / 2.0f ) * moveSpeed * dt;
+		dy += std::sin( angle + chili::pi / 2.0f ) * moveSpeed * dt;
+	}
 
 	if( map.GetTile( Vei2( Vec2{ pos.x + dx,pos.y } ) ) ==
 		TileMap::TileType::Empty )
@@ -36,6 +40,9 @@ void Player::Update( const Keyboard& kbd,const Mouse& mouse,
 	{
 		pos.y += dy;
 	}
+
+	wnd.CenterMouse();
+	lastMousePos = mouse.GetPos();
 }
 
 void Player::Draw( Graphics& gfx ) const

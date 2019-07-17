@@ -123,6 +123,35 @@ void MainWindow::Minimize()
 		SWP_SHOWWINDOW );
 }
 
+void MainWindow::CenterMouse()
+{
+	RECT window;
+	GetWindowRect( hWnd,&window );
+	const Vei2 pos = Vei2{ int( window.left + window.right ) / 2,
+		int( window.top + window.bottom ) / 2 };
+	// mouse.OnMouseMove( pos.x - int( window.left ),
+	// 	pos.y - int( window.top ) );
+	mouse.OnMouseMove( Graphics::ScreenWidth / 2,
+		Graphics::ScreenHeight / 2 );
+
+	if( !fullscreen )
+	{
+		SetCursorPos( pos.x,pos.y );
+	}
+	else
+	{
+		// RECT desktop;
+		// const auto hDesk = GetDesktopWindow();
+		// GetWindowRect( hDesk,&desktop );
+		// const Vei2 desktopPos = Vei2{ int( desktop.left + desktop.right ) / 2,
+		// 	int( desktop.top + desktop.bottom ) / 2 };
+		// SetCursorPos( desktopPos.x,desktopPos.y );
+
+		SetCursorPos( Graphics::ScreenWidth / 2 - 8,
+			Graphics::ScreenHeight / 2 - 8 );
+	}
+}
+
 LRESULT WINAPI MainWindow::_HandleMsgSetup( HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam )
 {
 	// use create parameter passed in from CreateWindow() to store window class pointer at WinAPI side
