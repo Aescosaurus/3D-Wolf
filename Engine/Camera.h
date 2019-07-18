@@ -18,5 +18,7 @@ private:
 	static constexpr float rayWidth = Graphics::ScreenWidth / resolution;
 	static constexpr float focalLen = 0.8f;
 	Surface wallSpr = "Images/Wall4.bmp";
+	Surface enemySpr = "Images/Enemy.bmp";
 	mutable std::vector<Ray> rays;
+	Vec2 enemyPos = { 5.5f,5.0f };
 };

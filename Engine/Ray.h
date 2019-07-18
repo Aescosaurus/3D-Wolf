@@ -21,11 +21,17 @@ public:
 	{
 		return( ( pos - start ).GetLength() );
 	}
+	float GetDistSq() const
+	{
+		return( ( pos - start ).GetLengthSq() );
+	}
 public:
 	Vec2 start;
 	Vec2 pos;
 	Vec2 dir;
 	int height = -1;
 	float offset = -1.0f;
+	int col = -1;
+	float angle = -1.0f;
 	static constexpr float step = 0.1f;
 };

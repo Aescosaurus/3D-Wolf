@@ -10,6 +10,8 @@ void Player::Update( const Keyboard& kbd,Mouse& mouse,
 	MainWindow& wnd,const TileMap& map,float dt )
 {
 	angle += ( mouse.GetPosX() - lastMousePos.x ) * rotSpeed * dt;
+	if( angle < 0.0f ) angle += chili::pi * 2.0f;
+	if( angle > chili::pi * 2.0f ) angle -= chili::pi * 2.0f;
 
 	Vec2 moveDir = { 0.0f,0.0f };
 
