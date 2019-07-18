@@ -11,31 +11,28 @@ void Player::Update( const Keyboard& kbd,Mouse& mouse,
 {
 	angle += ( mouse.GetPosX() - lastMousePos.x ) * rotSpeed * dt;
 
-	float dx = 0.0f;
-	float dy = 0.0f;
+	Vec2 moveDir = { 0.0f,0.0f };
 
 	if( kbd.KeyIsPressed( 'W' ) )
 	{
-		dx += std::cos( angle ) * moveSpeed * dt;
-		dy += std::sin( angle ) * moveSpeed * dt;
+		moveDir += Vec2::FromAngle( angle );
 	}
 	if( kbd.KeyIsPressed( 'S' ) )
 	{
-		dx -= std::cos( angle ) * moveSpeed * dt;
-		dy -= std::sin( angle ) * moveSpeed * dt;
+		moveDir -= Vec2::FromAngle( angle );
 	}
 	if( kbd.KeyIsPressed( 'A' ) )
 	{
-		dx -= std::cos( angle + chili::pi / 2.0f ) * moveSpeed * dt;
-		dy -= std::sin( angle + chili::pi / 2.0f ) * moveSpeed * dt;
+		moveDir -= Vec2::FromAngle( angle + chili::pi / 2.0f );
 	}
 	if( kbd.KeyIsPressed( 'D' ) )
 	{
-		dx += std::cos( angle + chili::pi / 2.0f ) * moveSpeed * dt;
-		dy += std::sin( angle + chili::pi / 2.0f ) * moveSpeed * dt;
+		moveDir += Vec2::FromAngle( angle + chili::pi / 2.0f );
 	}
 
-	pos += coll.GetValidMove( pos,Vec2{ dx,dy } );
+	moveDir = moveDir.GetNormalized() * moveSpeed * dt;
+
+	pos += coll.GetValidMove( pos,moveDir );
 	coll.MoveTo( pos );
 
 	// if( map.GetTile( Vei2( Vec2{ pos.x + dx,pos.y } ) ) ==

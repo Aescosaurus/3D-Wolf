@@ -8,7 +8,7 @@ Collider::Collider( const TileMap& map,const Rect& hitbox )
 
 void Collider::MoveTo( const Vec2& updatedPos )
 {
-	hitbox.MoveTo( updatedPos - hitbox.GetSize() );
+	hitbox.MoveTo( updatedPos - hitbox.GetSize() / 2.0f );
 }
 
 Vec3b Collider::GetValidMove( const Vec2& startPos,const Vec2& moveTest ) const
