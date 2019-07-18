@@ -1,6 +1,11 @@
 #include "Player.h"
 #include "ChiliUtils.h"
 
+Player::Player( const TileMap& map )
+	:
+	coll( map,Rect{ pos - size / 2.0f,size.x,size.y } )
+{}
+
 void Player::Update( const Keyboard& kbd,Mouse& mouse,
 	MainWindow& wnd,const TileMap& map,float dt )
 {
@@ -30,16 +35,19 @@ void Player::Update( const Keyboard& kbd,Mouse& mouse,
 		dy += std::sin( angle + chili::pi / 2.0f ) * moveSpeed * dt;
 	}
 
-	if( map.GetTile( Vei2( Vec2{ pos.x + dx,pos.y } ) ) ==
-		TileMap::TileType::Empty )
-	{
-		pos.x += dx;
-	}
-	if( map.GetTile( Vei2( Vec2{ pos.x,pos.y + dy } ) ) ==
-		TileMap::TileType::Empty )
-	{
-		pos.y += dy;
-	}
+	pos += coll.GetValidMove( pos,Vec2{ dx,dy } );
+	coll.MoveTo( pos );
+
+	// if( map.GetTile( Vei2( Vec2{ pos.x + dx,pos.y } ) ) ==
+	// 	TileMap::TileType::Empty )
+	// {
+	// 	pos.x += dx;
+	// }
+	// if( map.GetTile( Vei2( Vec2{ pos.x,pos.y + dy } ) ) ==
+	// 	TileMap::TileType::Empty )
+	// {
+	// 	pos.y += dy;
+	// }
 
 	wnd.CenterMouse();
 	lastMousePos = mouse.GetPos();
@@ -49,7 +57,7 @@ void Player::Draw( Graphics& gfx ) const
 {
 	const auto drawPos = Vei2( pos * float( TileMap::minimapSize ) );
 
-	gfx.DrawRect( drawPos.x - 2,drawPos.y - 2,5,5,Colors::Red );
+	gfx.DrawRect( drawPos.x - 1,drawPos.y - 1,2,2,Colors::Red );
 
 	gfx.DrawLine( drawPos,
 		drawPos + Vec2::FromAngle( angle ) * 10.0f,
