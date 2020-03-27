@@ -17,13 +17,6 @@ void Camera::Draw( const TileMap& tilemap,const Player& player,Graphics& gfx ) c
 		const float angle = std::atan2( x,focalLen );
 		Ray ray = tilemap.CastSingleRay( player.GetPos(),
 			player.GetAngle() + angle );
-		// std::vector<Ray> objects = tilemap.WalkRay( ray );
-		// for( auto& obj : objects )
-		// {
-		// 	obj.col = col;
-		// 	obj.angle = angle;
-		// 	objects.emplace_back( obj );
-		// }
 		ray.col = col;
 		ray.angle = angle;
 		rays.emplace_back( ray );
@@ -39,10 +32,6 @@ void Camera::Draw( const TileMap& tilemap,const Player& player,Graphics& gfx ) c
 	{
 		DrawSingleRay( ray.col,ray,ray.angle,gfx );
 	}
-	for( const auto& obj : objects )
-	{
-		DrawSingleRay( obj.col,obj,obj.angle,gfx );
-	}
 
 	// const auto viewDist = float( Graphics::ScreenWidth / 2 ) / std::tan( 45.0f );
 	// const auto enemyPos = Vec2{ 5.5f,5.0f };
@@ -54,30 +43,34 @@ void Camera::Draw( const TileMap& tilemap,const Player& player,Graphics& gfx ) c
 	// const auto x = std::tan( angle ) * viewDist;
 
 	const auto diff = player.GetPos() - enemyPos;
-	const auto angle = abs( std::atan2( diff.y,diff.x ) );
+	const auto angle = std::atan2( diff.y,diff.GetLength() );
 	Ray ray{ player.GetPos(),angle };
 	ray.pos = enemyPos;
 	rays.emplace_back( ray );
 
-	const float minX = 0.0f / resolution - 0.5f;
-	const float maxX = resolution / resolution - 0.5f;
-	const float minAngle = std::atan2( minX,focalLen ) - player.GetAngle();
-	const float maxAngle = std::atan2( maxX,focalLen ) - player.GetAngle();
+	// const float minX = 0.0f / resolution - 0.5f;
+	// const float maxX = resolution / resolution - 0.5f;
+	// const float minAngle = std::atan2( minX,focalLen )/* - player.GetAngle()*/;
+	// const float maxAngle = std::atan2( maxX,focalLen )/* - player.GetAngle()*/;
 
 	// if( angle > minAngle && angle < maxAngle )
 	// if( abs( player.GetAngle() - angle ) < resolution / 2.0f )
 	{
-		const auto x = float( Graphics::ScreenWidth ) -
-			( player.GetAngle() - chili::pi ) /
-			( maxAngle - minAngle ) *
-			float( Graphics::ScreenWidth );
+		// const auto x = float( Graphics::ScreenWidth ) -
+		// 	( player.GetAngle() - chili::pi ) /
+		// 	( maxAngle - minAngle ) *
+		// 	float( Graphics::ScreenWidth );
+
+		const auto x = std::tan( angle - player.GetAngle() /*+ diff.y * 0.1f*/ ) * focalLen;
+		const auto col = ( x + 0.5f ) * resolution;
+
 		const float z = ray.GetDist() * std::cos( angle );
 		const float wallHeight = float( Graphics::ScreenHeight ) * 1.0f / z;
 		const float bottom = float( Graphics::ScreenHeight ) / 2.0f *
 			( 1.0f + 1.0f / z );
 		
-		gfx.DrawRectSafe( int( x ),int( bottom - wallHeight ),
-			50,int( wallHeight ),Colors::Red );
+		gfx.DrawRectSafe( int( col * rayWidth ),int( bottom - wallHeight ),
+			int( wallHeight ),int( wallHeight ),Colors::Red );
 		// gfx.DrawRectSafe( int( x ),150,150,50,Colors::Red );
 	}
 
@@ -121,23 +114,4 @@ void Camera::DrawSingleRay( int col,const Ray& ray,float angle,Graphics& gfx ) c
 		RectI{ int( left ),int( left + std::ceil( rayWidth ) ),
 		int( bottom - wallHeight ),int( bottom ) },
 		wallSpr );
-}
-
-void Camera::DrawSingleObj( int col,const Ray& ray,float angle,Graphics& gfx ) const
-{
-	const float left = std::floor( float( col ) * rayWidth );
-	const float z = ray.GetDist() * std::cos( angle );
-	const float wallHeight = float( Graphics::ScreenHeight ) * 1.0f / z;
-	const float bottom = float( Graphics::ScreenHeight ) / 2.0f *
-		( 1.0f + 1.0f / z );
-
-	gfx.DrawRectSafe( int( left ),int( bottom - wallHeight ),
-		int( std::ceil( rayWidth ) ),int( wallHeight ),Colors::Red );
-
-	// const int texX = int( ray.offset * float( wallSpr.GetWidth() ) );
-
-	// gfx.DrawSprite( RectI{ texX,texX + 1,0,wallSpr.GetHeight() },
-	// 	RectI{ int( left ),int( left + std::ceil( rayWidth ) ),
-	// 	int( bottom - wallHeight ),int( bottom ) },
-	// 	wallSpr );
 }
