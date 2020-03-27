@@ -70,7 +70,7 @@ Ray TileMap::CastSingleRay( const Vec2& start,float angle ) const
 
 			const auto dx = cos < 0 ? 1 : 0;
 			if( GetTile( Vei2( temp.pos ) -
-				Vei2{ dx,0 } ) != TileType::Empty )
+				Vei2{ dx,0 } ) == TileType::Wall )
 			{
 				foundWall = true;
 			}
@@ -82,7 +82,7 @@ Ray TileMap::CastSingleRay( const Vec2& start,float angle ) const
 
 			const auto dy = sin < 0 ? 1 : 0;
 			if( GetTile( Vei2( temp.pos ) -
-				Vei2{ 0,dy } ) != TileType::Empty )
+				Vei2{ 0,dy } ) == TileType::Wall )
 			{
 				foundWall = true;
 			}

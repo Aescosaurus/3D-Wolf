@@ -13,6 +13,7 @@ public:
 	void DrawRays( Graphics& gfx ) const;
 private:
 	void DrawSingleRay( int col,const Ray& ray,float angle,Graphics& gfx ) const;
+	void DrawSingleObj( int col,const Ray& ray,float angle,Graphics& gfx ) const;
 private:
 	static constexpr float resolution = 320.0f;
 	static constexpr float rayWidth = Graphics::ScreenWidth / resolution;
@@ -20,5 +21,6 @@ private:
 	Surface wallSpr = "Images/Wall4.bmp";
 	Surface enemySpr = "Images/Enemy.bmp";
 	mutable std::vector<Ray> rays;
+	mutable std::vector<Ray> objects;
 	Vec2 enemyPos = { 5.5f,5.0f };
 };
